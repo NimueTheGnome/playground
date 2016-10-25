@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+  <meta name="description" content="Week 2 assessment part 2">
+  <meta name="author" content="Serena Cappellini">
+  <title>Color Guessing Game</title>
+</head>
+<body onload="do_game()">
+
+    <script>
+    var target;
+    var colors = ["plum", "violet", "tomato", "dimgray", "navy", "honeydew", "lavender", "chocolate", "firebrick", "aqua"];
+    colors.sort();
+    var finished = false;
+    var guess_input;
+    var guesses = 0;
+
+    function do_game() {
+      var random_number = Math.random() * 10;
+          random_number_int = parseInt(random_number);
+      var random_color = colors[random_number_int];
+      target = random_color;
+      while (!finished) {
+        guess_input = prompt("I am thinking of one of these colors \n\n" + colors.join(", ") + "\n\n What color am I thinking of?");
+        guesses += 1;
+        finished = check_guess();
+      }
+    }
+
+    function check_guess() {
+      if (colors.indexOf(guess_input) === -1) {
+        alert("That's not in the list of colors! Try again.");
+        return false;
+      }
+      if (colors.indexOf(guess_input) > colors.indexOf(target)) {
+        alert("Sorry, your guess is not correct. \n\n Hint: your color was alphabetically higher than mine. ");
+        return false;
+      }
+      if (colors.indexOf(guess_input) < colors.indexOf(target)) {
+        alert("Sorry, your guess is not correct. \n\n Hint: your color was alphabetically lower than mine. ");
+        return false;
+      }
+      if (guess_input === target) {
+        myBody=document.getElementsByTagName("body")[0];
+        myBody.style.background=target;
+        alert("Congratulations, you guessed right! The color was " + target + ", it took you " + guesses + " guesses to get the color!");
+        return true;
+      }
+    }
+
+    </script>
+
+</body>
+</html>
