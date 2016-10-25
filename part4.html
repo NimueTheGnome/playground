@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+<head>
+  <meta name="description" content="Week 3 assessment part 4">
+  <meta name="author" content="Serena Cappellini">
+  <title>Matching Game</title>
+  <style>
+    h1 {
+      font-family: sans-serif;
+      font-size: 40px;
+      color: darkred;
+    }
+    p {
+      font-family: sans-serif;
+      font-size: 16px;
+      color: black;
+    }
+    div {
+      position: absolute;
+      width:500px;
+      height:500px;
+    }
+    img {
+      position:absolute;
+      width:100px;
+      height:100px;
+    }
+    #rightSide {
+      left: 500px;
+      border-left: 2px solid black;
+    }
+  </style>
+</head>
+<body onload="generateFaces()">
+<h1>Matching Game</h1>
+<p>Click on the extra smiling face on the left.</p>
+<div id="leftSide"></div>
+<div id="rightSide"></div>
+<script>
+  var numberOfFaces = 5;
+  var theLeftSide = document.getElementById("leftSide");
+  var theRightSide = document.getElementById("rightSide");
+  // adding theBody
+  var theBody = document.getElementsByTagName("body")[0];
+
+  function generateFaces() {
+    for (var i = 0; i < numberOfFaces; i++) {
+      var top = Math.floor(Math.random()*401);
+      var left = Math.floor(Math.random()*401);
+      var theImg = document.createElement("img");
+      theImg.setAttribute("src","http://home.cse.ust.hk/~rossiter/mooc/matching_game/smile.png");
+      theImg.style.top = top + "px";
+      theImg.style.left = left + "px";
+      theLeftSide.appendChild(theImg);
+      leftSideImages = theLeftSide.cloneNode(true);
+      leftSideImages.removeChild(leftSideImages.lastChild);
+      theRightSide.appendChild(leftSideImages);
+    }
+    // bringing it all together and adding the onlick event
+    var theBody = document.getElementsByTagName("body")[0];
+    theLeftSide.lastChild.onclick = function nextLevel(event) {
+      event.stopPropagation();
+      while (theLeftSide.firstChild) {
+        theLeftSide.removeChild(theLeftSide.firstChild);
+      }
+      while (theRightSide.firstChild) {
+        theRightSide.removeChild(theRightSide.firstChild);
+      }
+      numberOfFaces += 5;
+      generateFaces();
+    };
+    // gameover alert
+    theBody.onclick = function gameOver() {
+      alert("Sorry, game Over!\n\nTo play again, just refresh the browser!");
+      theBody.onclick = null;
+      theLeftSide.lastChild.onclick = null;
+    };
+  }
+</script>
+</body>
+</html>
